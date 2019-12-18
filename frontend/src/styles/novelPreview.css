@@ -1,0 +1,49 @@
+.novel-preview__wrapper {
+  width: 120px;
+  cursor: pointer;
+}
+
+.novel-preview__wrapper:hover .novel-preview__title {
+  color: coral;
+}
+
+.novel-preview__wrapper:hover .novel-preview__img {
+  opacity:0.5;
+  filter: alpha(opacity=80) black;
+  background-color:#000;
+}
+
+.novel-preview__img {
+  background-color: rgb(153, 153, 153);
+  height: 170px;
+  width: inherit;
+}
+
+.novel-preview__img-overlay {
+  position: absolute;
+  color: black;
+  height: 170px;
+  width: inherit;
+}
+
+.novel-preview__genres {
+  font-size: 0.85em;
+  color: #1f1f1f;
+  opacity: 0.4;
+}
+
+.novel-preview__title {
+  color: #0a048a;
+  margin-top: 6px;
+  font-weight: 400;
+}
+
+.novel-preview__wrapper .media {
+  display: flex;
+  align-items: center;
+}
+
+.novel-preview__rate {
+  font-size: 0.9em;
+  opacity: 0.8;
+}

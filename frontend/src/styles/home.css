@@ -1,0 +1,7 @@
+.novel-group .card-body {
+  display: flex;
+}
+
+.novel-group .card-body>div {
+  margin-right: 25px;
+}

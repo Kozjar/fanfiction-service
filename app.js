@@ -15,7 +15,7 @@ app.use(cors());
 
 // set up routes
 app.use('/api', api);
-app.use('/api/novel', novelsApi)
+app.use('/api/novels', novelsApi)
 
 // connect to mongodb
 mongoose.connect(keys.mongodb.dbURL, () => {

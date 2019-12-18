@@ -1,5 +1,6 @@
 const router = require('express').Router();
 const Novel = require('../models/novel');
+const Genre = require('../models/genres');
 
 router.get('/lastUpdated', (req, res) => {
   Novel.find({})
@@ -50,9 +51,11 @@ router.post('/new', (req, res) => {
         last_update: new Date(),
         total_rate: 0,
         rate_count: 0
-      })
+      }).save();
     }
   })
+  .then(novel => res.send(novel))
+  .catch(err => res.status(404).send());
 })
 
 router.get('/:title', (req, res) => {
@@ -63,6 +66,14 @@ router.get('/:title', (req, res) => {
     res.send(tmpNovel);
   })
   .catch(err => res.status(404).send());
+})
+
+router.get('/genres', (req, res) => {
+  Genre.find({})
+  .then(genres => {
+    res.send(genres);
+  })
+  .catch(err => console.log(err));
 })
 
 module.exports = router;
