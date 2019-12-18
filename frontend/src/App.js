@@ -11,30 +11,22 @@ import Login from './components/login';
 import Home from './components/home';
 import Navbar from './components/navbar'
 
+// const history = createBrowserHistory();
+
 class App extends Component {
-
-  state = {
-    currentUser: undefined
-  }
-
-  setUser(user) {
-    this.setState({currentUser: user});
-  }
 
   render() { 
     
     return ( 
       <>
         <Router>
-          <Navbar currentUser={this.state.currentUser}
-                  setUser={this.setUser.bind(this)} />
+          <Navbar />
           <Switch>
             <Route path="/login">
-              <Login currentUser={this.state.currentUser} 
-                     setUser={this.setUser.bind(this)} />
+              <Login />
             </Route>
             <Route exact path="/">
-              <Home currentUser={this.state.currentUser} />
+              <Home />
             </Route>
           </Switch>
         </Router>

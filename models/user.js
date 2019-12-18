@@ -5,7 +5,9 @@ const userSchema = new Schema({
     username: String,
     password: String,
     email: String,
-    email_status: Number
+    email_status: Boolean,
+    isAdmin: Boolean,
+    sessionId: String
 });
 
 const User = mongoose.model('users', userSchema);

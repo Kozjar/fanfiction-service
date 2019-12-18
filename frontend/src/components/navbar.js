@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import {
-  Link
+  NavLink
 } from "react-router-dom";
+import { connect } from 'react-redux';
 
 class Navbar extends Component {
 
@@ -10,25 +11,24 @@ class Navbar extends Component {
     }
 
   logout() {
-    this.props.setUser(undefined);
-    this.setState({location: '/login'});
+    // this.props.setUser(undefined);
   }
 
   render() { 
-    const { currentUser } = this.props;
+    const { username } = this.props;
     return ( 
       <nav className="navbar navbar-expand-sm navbar-dark bg-dark" style={{marginBottom: '50px'}}>
         <div className="collapse navbar-collapse" id="navbarNavAltMarkup">
           <div className="navbar-nav">
-            <Link className={`nav-item nav-link ${window.location.pathname === '/login' ? 'active' : ''}`} 
-                  to='/login'
-                  onClick={this.logout.bind(this)}>
-              {currentUser ? 'Log out' : 'Login'}
-            </Link>
-            <Link className={`nav-item nav-link ${window.location.pathname === '/' ? 'active' : ''}`} to='/'
-                  onClick={() => this.setState({location: '/'})}>
+            <NavLink className={`nav-item nav-link`} 
+                     to='/login' activeClassName="active"
+                     onClick={this.logout.bind(this)}>
+              {username ? 'Log out' : 'Login'}
+            </NavLink>
+            <NavLink className={`nav-item nav-link`} exact to='/' activeClassName="active"
+                     onClick={() => this.setState({location: '/'})}>
               Home
-            </Link>
+            </NavLink>
           </div>
         </div>
       </nav>
@@ -36,4 +36,10 @@ class Navbar extends Component {
   }
 }
  
-export default Navbar;
+const mapStateToProps = (state) => {
+  return {
+    username: state.user.name
+  }
+}
+
+export default connect(mapStateToProps)(Navbar);
