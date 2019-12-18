@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 
 const api = require('./routes/api');
+const novelsApi = require('./routes/novelsApi');
 
 const keys = require('./config/keys');
 
@@ -14,6 +15,7 @@ app.use(cors());
 
 // set up routes
 app.use('/api', api);
+app.use('/api/novel', novelsApi)
 
 // connect to mongodb
 mongoose.connect(keys.mongodb.dbURL, () => {
