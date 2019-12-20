@@ -1,0 +1,21 @@
+.navbar {
+  padding: .3rem 1rem;
+}
+
+.login__btn {
+  height: inherit;
+  display: inline-block;
+  font-weight: 400;
+  text-align: center;
+  vertical-align: middle;
+  cursor: pointer;
+  padding: .375rem .75rem;
+  font-size: 1rem;
+  color: white;
+}
+
+.login__btn:hover {
+  color: white;
+  background-color: #555;
+  text-decoration: none;
+}

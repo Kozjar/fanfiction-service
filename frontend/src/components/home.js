@@ -40,6 +40,14 @@ class Home extends Component {
   render() { 
     return ( 
       <main>
+        <button onClick={() => fetch('/api/testCookie', {
+              method: 'GET',
+              credentials: 'same-origin',
+            }).then(console.log('test cookie finished'))}>test cookie</button>
+        <button onClick={() => fetch('/api/initCookie', {
+            method: 'GET',
+            credentials: 'same-origin',
+          }).then(console.log('init cookie finished'))}>init cookie</button>
         <div className="container">
           <div className="card latest-updates__wrapper novel-group">
             <div className="card-header">Latest updates</div>

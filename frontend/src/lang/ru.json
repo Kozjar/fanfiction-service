@@ -1,0 +1,17 @@
+{
+  "en": {
+    "translation": {
+      "navbar": {
+        "Login": "Войти",
+        "Log out": "Выйти из аккаунта",
+        "Home": "Главная",
+        "Guest": "Гость",
+        "Languege": "Язык"
+      },
+      "Home": {
+        "Latest updates": "Последние обновления",
+        "Top rated": "Лучшие оценки"
+      }
+    }
+  }
+}

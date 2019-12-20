@@ -16,7 +16,9 @@ import Navbar from './components/navbar'
 class App extends Component {
 
   render() { 
-    
+    fetch('/api/')
+    .then(res => res.text())
+    .then(res => console.log(res));
     return ( 
       <>
         <Router>

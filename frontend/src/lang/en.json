@@ -1,0 +1,17 @@
+{
+  "en": {
+    "translation": {
+      "navbar": {
+        "Login": "Login",
+        "Log out": "Log out",
+        "Home": "Home",
+        "Guest": "Guest",
+        "Languege": "Languege"
+      },
+      "Home": {
+        "Latest updates": "Latest updates",
+        "Top rated": "Top rated"
+      }
+    }
+  }
+}
