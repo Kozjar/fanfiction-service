@@ -1,4 +1,4 @@
-import ACCESS_TYPE from '../config/userAccessType'
+import { ACCESS_TYPE } from '../config/userAccessType'
 
 const initState = {
   user: {
@@ -56,6 +56,8 @@ const rootReducer = (state = initState, action) => {
           }
         }
       }
+    default:
+      return {...state}
   }
 
   return state;

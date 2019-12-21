@@ -1,7 +1,20 @@
 .novel-group .card-body {
   display: flex;
+  height: 280px;
 }
 
 .novel-group .card-body>div {
   margin-right: 25px;
+}
+
+.spinner-wrapper {
+  display: flex;
+  flex-grow: 1;
+  justify-content: center;
+  align-items: center;
+}
+
+.spinner-wrapper>.spinner-border {
+  width: 4rem;
+  height: 4rem;
 }

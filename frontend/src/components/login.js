@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 
-import { loginAsync, registerAsync, loginError, registerError } from '../actions/index';
+import { loginAsync, registerAsync, loginError, registerError } from '../actions/auth';
 
 class Login extends Component {
     constructor(props) {

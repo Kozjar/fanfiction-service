@@ -5,6 +5,7 @@ import {
 import { connect } from 'react-redux';
 
 import '../styles/navbar.css';
+import { logoutAsync } from '../actions/auth';
 
 class Navbar extends Component {
 
@@ -13,11 +14,12 @@ class Navbar extends Component {
     }
 
   logout() {
+    this.props.logout();
+    // fetch('')
     // this.props.setUser(undefined);
   }
 
-  render() { 
-    const { username } = this.props;
+  render() {
     return ( 
       <nav className="navbar navbar-expand-sm navbar-dark bg-dark" style={{marginBottom: '50px'}}>
         <div className="collapse navbar-collapse" id="navbarNavAltMarkup">
@@ -34,8 +36,9 @@ class Navbar extends Component {
                         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                   {this.props.username ? this.props.username : 'Guest'}
                 </button>
-                <div className="dropdown-menu" aria-labelledby="navbarDropdown">
+                <div className="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                   <a className="dropdown-item" href="#">Create novel</a>
+                  <hr></hr>
                   <Link className="dropdown-item" to='/login'
                         onClick={this.logout.bind(this)}>Log out</Link>
                 </div>
@@ -55,4 +58,10 @@ const mapStateToProps = (state) => {
   }
 }
 
-export default connect(mapStateToProps)(Navbar);
+const mapDispatchToProps = (dispatch) => {
+  return {
+    logout: () => dispatch(logoutAsync())
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Navbar);
