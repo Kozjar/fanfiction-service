@@ -76,13 +76,13 @@ export const registerAsync = (email, username, password) => {
 
 export const logoutAsync = () => {
   return (dispatch, getState) => {
+    dispatch(login(ACCESS_TYPE.guest, undefined));
     fetch(`/api/users/logout`, {
       method: 'DELETE',
     })
     .then(res => Promise.all([res.ok, res.text()]))
     .then(([ok, json]) => {
       if (!ok) throw new Error('somthing goes wrong!!!');
-      dispatch(login(ACCESS_TYPE.guest, undefined));
     })
   }
 }

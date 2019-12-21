@@ -2,21 +2,30 @@ import React, { Component } from 'react';
 import {
   NavLink, Link
 } from "react-router-dom";
+import { LinkContainer } from 'react-router-bootstrap'
 import { connect } from 'react-redux';
 
 import '../styles/navbar.css';
 import { logoutAsync } from '../actions/auth';
+import { setLanguage } from '../actions/translation';
+
+import Dropdown from "react-bootstrap/Dropdown";
 
 class Navbar extends Component {
 
     state = {
-        location: window.location.pathname
+        location: window.location.pathname,
+        langDropdownOpen: false,
+        profileDropdownOpen: false
     }
 
   logout() {
     this.props.logout();
-    // fetch('')
-    // this.props.setUser(undefined);
+  }
+
+  setLang(lang) {
+    if (lang !== this.props.lang)
+      this.props.setLang(lang);
   }
 
   render() {
@@ -30,22 +39,57 @@ class Navbar extends Component {
             </NavLink>
 
           </div>
-            {this.props.username ? (
-              <div className="dropdown">
-                <button className="btn btn-secondary dropdown-toggle" type="button" id="navbarDropdown" 
-                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  {this.props.username ? this.props.username : 'Guest'}
-                </button>
-                <div className="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                  <a className="dropdown-item" href="#">Create novel</a>
-                  <hr></hr>
-                  <Link className="dropdown-item" to='/login'
-                        onClick={this.logout.bind(this)}>Log out</Link>
-                </div>
-              </div>
-            ) : (
-              <Link className={`nav-item login__btn`} to='/login'>Login</Link>
-            )}
+          <Dropdown alignRight
+            onMouseOver={() => this.setState({langDropdownOpen: true})}
+            onMouseLeave={() => this.setState({langDropdownOpen: false})}
+            show={this.state.langDropdownOpen}
+            onToggle={() => this.setState({langDropdownOpen: false})}
+            onSelect={() => this.setState({langDropdownOpen: false})}>
+            <Dropdown.Toggle>
+              Language: {this.props.lang}
+            </Dropdown.Toggle>
+
+            <Dropdown.Menu>
+              <Dropdown.Item as="button" onClick={this.setLang.bind(this, 'en')}>
+                English
+              </Dropdown.Item>
+              <Dropdown.Item as="button" onClick={this.setLang.bind(this, 'ru')}>
+                Русский
+              </Dropdown.Item>
+            </Dropdown.Menu>
+          </Dropdown>
+
+
+          {this.props.username ? (
+            <Dropdown alignRight
+                onMouseOver={() => this.setState({profileDropdownOpen: true})}
+                onMouseLeave={() => this.setState({profileDropdownOpen: false})}
+                show={this.state.profileDropdownOpen}
+                onToggle={() => this.setState({profileDropdownOpen: false})}
+                onSelect={() => this.setState({profileDropdownOpen: false})}>
+              <Dropdown.Toggle>
+                {this.props.username}
+              </Dropdown.Toggle>
+
+              <Dropdown.Menu>
+                <LinkContainer>
+                  <Dropdown.Item as="button">
+                    Create novel
+                  </Dropdown.Item>
+                </LinkContainer>
+
+                <Dropdown.Divider></Dropdown.Divider>
+
+                <LinkContainer to="/login">
+                  <Dropdown.Item onClick={this.logout.bind(this)}>
+                    Log out
+                  </Dropdown.Item>
+                </LinkContainer>
+              </Dropdown.Menu>
+            </Dropdown>
+          ) : (
+            <Link className={`nav-item login__btn`} to='/login'>Login</Link>
+          )}
         </div>
       </nav>
       );
@@ -54,13 +98,15 @@ class Navbar extends Component {
  
 const mapStateToProps = (state) => {
   return {
-    username: state.user.name
+    username: state.user.name,
+    lang: state.lang
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    logout: () => dispatch(logoutAsync())
+    logout: () => dispatch(logoutAsync()),
+    setLang: (lang) => dispatch(setLanguage(lang))
   }
 }
 

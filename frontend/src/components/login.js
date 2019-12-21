@@ -70,7 +70,6 @@ class Login extends Component {
       }
         return ( 
             <div className='container'>
-                {this.props.currentUser ? <Redirect to='/' /> : ''}
                 <form className='mx-auto w-50' onSubmit={this.onSubmitForm.bind(this)}>
                     <nav className="nav nav-pills enter-type-nav">
                         <div className={`nav-item nav-link ${!this.state.newUser ? 'active' : ''}`}

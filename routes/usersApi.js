@@ -27,31 +27,28 @@ router.post('/register', (req, res) => {
       }
     })
     .catch(err => console.log(`wtf, error ${err}`));
+});
+
+router.get('/login', (req, res) => {
+  User.findById(req.session.userId)
+  .then(user => {
+    if (!user) res.send({access: ACCESS_TYPE.guest});
+    else res.send({username: user.username, access: user.isAdmin});
+  })
+  .catch(err => console.log(`cant login via cookie ${err}`));
 })
 
 router.post('/login', (req, res) => {
-  console.log(req.session);
-  if (req.session.userId) {
-    User.findById(req.session.userId)
-    .then(user => {
-      if (!user) res.send({access: ACCESS_TYPE.guest});
-      else res.send({username: user.username, access: user.isAdmin});
-    })
-    .catch(err => console.log(`cant login via cookie ${err}`));
-  }
-  else {
-    if (!req.body.email) res.send({access: ACCESS_TYPE.guest});
-    User.findOne({email: req.body.email, password: req.body.password})
-    .then(user => {
-      console.log(user);
-        if (!user) res.status(400).send();
-        else {
-          req.session.userId = user._id;
-          res.send({username: user.username, access: user.isAdmin});
-        }
-    })
-    .catch(err => console.log(`cant login ${err}`));
-  }
+  User.findOne({email: req.body.email, password: req.body.password})
+  .then(user => {
+    console.log(user);
+    if (!user) res.status(400).send();
+    else {
+      req.session.userId = user._id;
+      res.send({username: user.username, access: user.isAdmin});
+    }
+  })
+  .catch(err => console.log(`cant login ${err}`));
 })
 
 router.delete('/logout', (req, res) => {

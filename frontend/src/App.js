@@ -1,20 +1,20 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'
 import {
   BrowserRouter as Router,
   Switch,
   Route
-} from "react-router-dom";
-import 'bootstrap/dist/css/bootstrap.min.css';
-import './App.css';
+} from "react-router-dom"
+import 'bootstrap/dist/css/bootstrap.min.css'
+import './App.css'
 
-import { connect } from 'react-redux';
-import { login } from './actions/auth';
+import { connect } from 'react-redux'
+import { login } from './actions/auth'
 
-import Login from './components/login';
-import Home from './components/home';
+import Login from './components/login'
+import Home from './components/home'
 import Navbar from './components/navbar'
 
-import { setCookie, getCookie } from './workingWithCookie'
+// import { setCookie, getCookie } from './workingWithCookie'
 
 class App extends Component {
   state = {
@@ -22,18 +22,18 @@ class App extends Component {
   }
 
   componentDidMount() {
-    
+    this.loadUser();
   }
 
   loadUser() {
-    fetch('/api/users/login', {method: 'POST'})
+    fetch('/api/users/login')
     .then(res => {
       if (res.ok)
         return res.json();
       else 
         throw new Error(res);
     })
-    .then(res => { 
+    .then(res => {
       this.props.login(res.access, res.username);
       this.setState({loadingUser: false});
     })
@@ -45,18 +45,23 @@ class App extends Component {
   }
 
   render() {
+    const { t } = this.props;
+    console.log(this.props);
     if (!this.state.loadingUser) {
       return ( 
         <>
           <Router>
             <Navbar />
             <Switch>
-              <Route path="/login">
+              <Route exact path="/login">
                 <Login />
               </Route>
               <Route exact path="/">
                 <Home />
               </Route>
+              {/* <Route path="/novel">
+                <Novel />
+              </Route> */}
             </Switch>
           </Router>
         </>

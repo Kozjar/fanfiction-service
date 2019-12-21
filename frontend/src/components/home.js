@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { withRouter } from "react-router-dom";
 import NovelPreview from './novelPreview';
 import '../styles/home.css';
 
@@ -20,7 +19,6 @@ class Home extends Component {
     fetch('/api/novels/topRated')
     .then(res => res.json())
     .then(json => this.setState({topRatedNovels: json, loadingTopRated: false}));
-
 
     return ( 
       <main>
@@ -69,4 +67,4 @@ class Home extends Component {
   }
 }
  
-export default withRouter(Home);
+export default Home;
