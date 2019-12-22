@@ -35,7 +35,10 @@ router.get('/login', (req, res) => {
     if (!user) res.send({access: ACCESS_TYPE.guest});
     else res.send({username: user.username, access: user.isAdmin});
   })
-  .catch(err => console.log(`cant login via cookie ${err}`));
+  .catch(err => { 
+    res.status(500).send();
+    console.log(`cant login via cookie ${err}`)
+  });
 })
 
 router.post('/login', (req, res) => {

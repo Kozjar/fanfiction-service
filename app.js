@@ -17,7 +17,7 @@ app.use(bodyParser.json());
 app.use(cookieParser());
 
 // connect to mongodb
-mongoose.connect(keys.mongodb.dbURL, () => {
+mongoose.connect(keys.mongodb.dbURL, { useNewUrlParser: true, useUnifiedTopology: true }, () => {
     console.log('connected to mongodb');
 });
 

@@ -22,19 +22,22 @@ router.get('/topRated', (req, res) => {
   .catch(err => console.log(err));
 })
 
-router.post('/new', (req, res) => {
+router.post('/', (req, res) => {
+  console.log('get request from frontend');
+  console.log(req.body);
   Novel.findOne({title: req.body.title})
   .then(novel => {
     if (novel) res.status(405).send('Novel with such title already exist');
     else {
       new Novel({
         title: req.body.title,
-        author_name: req.body.author_name,
+        author_name: req.body.authorName,
         description: req.body.description,
         chapters: [...req.body.chapters],
         comments: [],
         genres: [...req.body.genres],
         last_update: new Date(),
+        upload_date: new Date(),
         total_rate: 0,
         rate_count: 0
       }).save();

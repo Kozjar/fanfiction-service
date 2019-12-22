@@ -27,6 +27,8 @@ class App extends Component {
 
   componentDidMount() {
     this.loadUser();
+    const lang = getCookie('lang') || 'en';
+    this.props.setLang(lang);
   }
 
   loadUser() {
@@ -41,7 +43,7 @@ class App extends Component {
       this.props.login(res.access, res.username);
       this.setState({loadingUser: false});
     })
-    .catch(err => console.log(err));
+    .catch(err => console.log(`err!!! ${err}`));
   }
 
   setLanguage() {
@@ -49,9 +51,7 @@ class App extends Component {
   }
 
   render() {
-    const lang = getCookie('lang') || 'en';
-    this.props.setLang(lang);
-    if (!this.state.loadingUser) {
+    if (!this.state.loadingUser && this.props.genres) {
       return ( 
         <>
           <Router>
@@ -74,12 +74,14 @@ class App extends Component {
         </>
       )
     }
-    else return (<></>);
+    else return (<>Loading...</>);
   }
 }
 
 const mapStateToProps = (state) => {
-  return {};
+  return {
+    genres: state.genres.val
+  };
 }
 
 const mapDispatchToProps = (dispatch) => {

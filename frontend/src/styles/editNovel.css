@@ -1,4 +1,4 @@
-img {
+.info-img__form-wrapper>img {
   display: inline;
   margin-right: 50px;
 }
@@ -25,4 +25,64 @@ textarea {
 .genre-btn>span {
   margin-left: 10px;
   font-size: 0.8em;
+}
+
+.input-group-append img {
+  width: 20px;
+  height: 20px;
+  margin: 0 8px;
+}
+
+.list-group-item {
+  display: flex;
+}
+
+.chapter__input *{
+  border-bottom: none;
+  border-radius: 0;
+}
+
+.chapter__input:last-of-type>input, .chapter__input:last-of-type span {
+  border-bottom: 1px solid #ced4da;
+}
+
+.chapter__input:last-of-type button {
+  border-bottom: 1px solid #6c757d;
+}
+
+.tab-pane>textarea {
+  border-top: 0px;
+  border-radius: 0;
+  flex-grow: 1;
+  height: 100%;
+}
+
+.tab-pane>textarea:focus {
+  box-shadow: none;
+  border-color: #ced4da;
+}
+
+.modal-content {
+  min-height: 100%;
+}
+
+.tab-content {
+  flex-grow: 1;
+  max-height: 90%;
+  display: flex;
+}
+
+.modal-body {
+  display: flex;
+  flex-direction: column;
+}
+
+.tab-pane {
+  display: flex;
+  flex-grow: 1;
+}
+
+.h-90 {
+  min-height: 89%;
+  display: flex;
 }

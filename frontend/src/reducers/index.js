@@ -13,7 +13,10 @@ const initState = {
   },
   i18n: i18next,
   lang: 'en',
-  genres: []
+  genres: {
+    val: undefined,
+    isLoading: false
+  }
 }
 
 const rootReducer = (state = initState, action) => {
@@ -65,14 +68,26 @@ const rootReducer = (state = initState, action) => {
     return {
       ...state,
       lang: action.lang,
-      genres: action.genres
+      genres: {
+        val: action.genres,
+        isLoading: false
+      }
     }
     
+  case 'START_LOADING_GENRES':
+    return {
+      ...state,
+      genres: {
+        ...state.genres,
+        isLoading: true
+      }
+    }
+
   default:
     return {...state}
   }
 
-  return state;
+  // return state;
 }
 
 export default rootReducer;

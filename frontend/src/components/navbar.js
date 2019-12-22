@@ -29,7 +29,6 @@ class Navbar extends Component {
   }
 
   render() {
-    const { t } = this.props;
     return ( 
       <nav className="navbar navbar-expand-sm navbar-dark bg-dark" style={{marginBottom: '50px'}}>
         <div className="collapse navbar-collapse" id="navbarNavAltMarkup">

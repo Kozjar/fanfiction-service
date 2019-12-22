@@ -1,6 +1,7 @@
 .novel-preview__wrapper {
   width: 120px;
   cursor: pointer;
+  text-decoration: none !important;
 }
 
 .novel-preview__wrapper:hover .novel-preview__title {

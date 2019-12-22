@@ -6,10 +6,12 @@ export const setLanguage = lang => {
       lng: lang,
       resources: require(`../locales/${lang}.json`)
     })
-    .then(() => fetch(`/api/novels/genres/${lang}`))
+    .then(() => {
+      dispatch({type: 'START_LOADING_GENRES'})
+      return fetch(`/api/novels/genres/${lang}`)
+    })
     .then(res => res.json())
     .then(genres => {
-      console.log(genres);
       setCookie('lang', lang, {'max-age': 60 * 60 * 24 * 7});
       dispatch({
         type: 'SET_LANGUAGE',

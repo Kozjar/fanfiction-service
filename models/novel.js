@@ -9,6 +9,7 @@ const novelSchema = new Schema({
   comments: [{ user_id: Schema.Types.ObjectId, text: String }],
   genres: [Number],
   last_update: Date,
+  upload_date: Date,
   total_rate: Number,
   rate_count: Number
 });
