@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import NovelPreview from './novelPreview';
+import { connect } from 'react-redux';
 import '../styles/home.css';
 
 class Home extends Component {
@@ -11,7 +12,7 @@ class Home extends Component {
     topRatedNovels: []
   }
 
-  render() { 
+  componentDidMount() {
     fetch('/api/novels/lastUpdated')
     .then(res => res.json())
     .then(json => this.setState({lastUpdatedNovels: json, loadingLastUpdated: false}));
@@ -19,16 +20,19 @@ class Home extends Component {
     fetch('/api/novels/topRated')
     .then(res => res.json())
     .then(json => this.setState({topRatedNovels: json, loadingTopRated: false}));
+  }
 
+  render() { 
     return ( 
       <main>
         <div className="container">
           <div className="card latest-updates__wrapper novel-group">
-            <div className="card-header">Latest updates</div>
+            <div className="card-header">{this.props.i18n.t('Home.Latest_updates')}</div>
             <div className="card-body">
               {!this.state.loadingLastUpdated ? (
                 this.state.lastUpdatedNovels.map((novel, i) =>
                   <NovelPreview key={i}
+                                id={novel._id}
                                 title={novel.title}
                                 total_rate={novel.total_rate}
                                 genres={novel.genres} />
@@ -43,11 +47,12 @@ class Home extends Component {
             </div>
           </div>
           <div className="card top-rated__wrapper novel-group">
-            <div className="card-header">Top rated</div>
+            <div className="card-header">{this.props.i18n.t('Home.Top_rated')}</div>
             <div className="card-body">
               {!this.state.loadingTopRated ? (
                 this.state.topRatedNovels.map((novel, i) =>
                   <NovelPreview key={i}
+                                id={novel._id}
                                 title={novel.title}
                                 total_rate={novel.total_rate}
                                 genres={novel.genres} />
@@ -66,5 +71,11 @@ class Home extends Component {
     );
   }
 }
+
+const mapStateToProps = (state) => {
+  return {
+    i18n: state.i18n
+  }
+}
  
-export default Home;
+export default connect(mapStateToProps)(Home);

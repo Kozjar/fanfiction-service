@@ -3,35 +3,21 @@ const Novel = require('../models/novel');
 const Genre = require('../models/genres');
 
 router.get('/lastUpdated', (req, res) => {
-  Novel.find({})
+  Novel.find({}, {title: 1, total_rate: 1, genres: 1})
   .sort({last_update: 1})
   .limit(6)
   .then(novels => {
-    const novelsPrev = novels.map(novel => {
-      return {
-        title: novel.title,
-        total_rate: novel.total_rate,
-        genres: [...novel.genres]
-      }
-    });
-    res.send(novelsPrev);
+    res.send(novels);
   })
   .catch(err => console.log(err));
 })
 
 router.get('/topRated', (req, res) => {
-  Novel.find({})
+  Novel.find({}, {title: 1, total_rate: 1, genres: 1})
   .sort({total_rate: 1})
   .limit(6)
   .then(novels => {
-    const novelsPrev = novels.map(novel => {
-      return {
-        title: novel.title,
-        total_rate: novel.total_rate,
-        genres: [...novel.genres]
-      }
-    });
-    res.send(novelsPrev);
+    res.send(novels);
   })
   .catch(err => console.log(err));
 })
@@ -58,22 +44,36 @@ router.post('/new', (req, res) => {
   .catch(err => res.status(404).send());
 })
 
-router.get('/:title', (req, res) => {
-  Novel.findOne({title: req.params.title})
+router.get('/:id', (req, res) => {
+  Novel.findById(req.params.id)
   .then(novel => {
-    const tmpNovel = novel;
-    tmpNovel.chapters = novel.chapters.map(o => o.name);
+    let tmpNovel = novel;
+    tmpNovel.chapters = novel.chapters.map(o => {
+      return {
+        name: o.name,
+        id: o._id
+      }
+    });
     res.send(tmpNovel);
   })
   .catch(err => res.status(404).send());
 })
 
-router.get('/genres', (req, res) => {
-  Genre.find({})
-  .then(genres => {
-    res.send(genres);
-  })
-  .catch(err => console.log(err));
+router.get('/genres/:lang', (req, res) => {
+  if (req.params.lang === 'ru') {
+    Genre.find({}, {ru: 1})
+    .then(genres => {
+      res.send(genres.map(o => o.ru));
+    })
+    .catch(err => console.log(err));
+  }
+  if (req.params.lang === 'en') {
+    Genre.find({}, {en: 1})
+    .then(genres => {
+      res.send(genres.map(o => o.en));
+    })
+    .catch(err => console.log(err));
+  }
 })
 
 module.exports = router;

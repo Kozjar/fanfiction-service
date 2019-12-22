@@ -1,17 +1,19 @@
 {
-  "en": {
+  "ru": {
     "translation": {
       "navbar": {
         "Login": "Войти",
-        "Log out": "Выйти из аккаунта",
+        "Log_out": "Выйти из аккаунта",
         "Home": "Главная",
         "Guest": "Гость",
-        "Languege": "Язык"
+        "Language": "Язык",
+        "Create_novel": "Добавить произведение"
       },
       "Home": {
-        "Latest updates": "Последние обновления",
-        "Top rated": "Лучшие оценки"
-      }
+        "Latest_updates": "Последние обновления",
+        "Top_rated": "Лучшие оценки"
+      },
+      "Test": "тест тест тест"
     }
   }
 }

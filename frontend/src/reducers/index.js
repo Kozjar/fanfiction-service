@@ -12,7 +12,8 @@ const initState = {
     }
   },
   i18n: i18next,
-  lang: 'en'
+  lang: 'en',
+  genres: []
 }
 
 const rootReducer = (state = initState, action) => {
@@ -63,7 +64,8 @@ const rootReducer = (state = initState, action) => {
   case 'SET_LANGUAGE':
     return {
       ...state,
-      lang: action.lang
+      lang: action.lang,
+      genres: action.genres
     }
     
   default:

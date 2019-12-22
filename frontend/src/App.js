@@ -13,8 +13,12 @@ import { login } from './actions/auth'
 import Login from './components/login'
 import Home from './components/home'
 import Navbar from './components/navbar'
+import Novel from "./components/novel";
+import EditNovel from './components/editNovel';
 
-// import { setCookie, getCookie } from './workingWithCookie'
+import { setLanguage } from './actions/translation';
+
+import { getCookie } from './workingWithCookie'
 
 class App extends Component {
   state = {
@@ -45,8 +49,8 @@ class App extends Component {
   }
 
   render() {
-    const { t } = this.props;
-    console.log(this.props);
+    const lang = getCookie('lang') || 'en';
+    this.props.setLang(lang);
     if (!this.state.loadingUser) {
       return ( 
         <>
@@ -59,9 +63,12 @@ class App extends Component {
               <Route exact path="/">
                 <Home />
               </Route>
-              {/* <Route path="/novel">
+              <Route path="/novel">
                 <Novel />
-              </Route> */}
+              </Route>
+              <Route path="/editNovel">
+                <EditNovel />
+              </Route>
             </Switch>
           </Router>
         </>
@@ -77,7 +84,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-      login: (access, username) => dispatch(login(access, username))
+      login: (access, username) => dispatch(login(access, username)),
+      setLang: (lang) => dispatch(setLanguage(lang))
   }
 }
  

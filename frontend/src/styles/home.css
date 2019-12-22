@@ -3,7 +3,7 @@
   height: 280px;
 }
 
-.novel-group .card-body>div {
+.novel-group .card-body>a {
   margin-right: 25px;
 }
 

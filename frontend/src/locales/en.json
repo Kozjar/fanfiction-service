@@ -3,14 +3,27 @@
     "translation": {
       "navbar": {
         "Login": "Login",
-        "Log out": "Log out",
+        "Log_out": "Log out",
         "Home": "Home",
         "Guest": "Guest",
-        "Languege": "Languege"
+        "Language": "Language",
+        "Create_novel": "Create novel"
       },
       "Home": {
-        "Latest updates": "Latest updates",
-        "Top rated": "Top rated"
+        "Latest_updates": "Latest updates",
+        "Top_rated": "Top rated"
+      },
+      "Novel": {
+        "information": "Information",
+        "description": "Description",
+        "author": "Author",
+        "genres": "Genres",
+        "rating": "Rating",
+        "last_update": "Last update",
+        "upload_date": "Upload date"
+      },
+      "Novel_edit": {
+        "choose_genres": "Choose genres"
       },
       "Test": "test test test"
     }

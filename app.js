@@ -11,7 +11,7 @@ const novelsApi = require('./routes/novelsApi');
 
 const keys = require('./config/keys');
 
-const app =express();
+const app = express();
 
 app.use(bodyParser.json());
 app.use(cookieParser());

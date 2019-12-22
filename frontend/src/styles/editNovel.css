@@ -1,0 +1,28 @@
+img {
+  display: inline;
+  margin-right: 50px;
+}
+
+.info-img__form-wrapper {
+  display: flex;
+}
+
+.info__form {
+  flex-grow: 1;
+}
+
+textarea {
+  resize: none;
+}
+
+.genre-btn {
+  border-radius: 0;
+  border: none;
+  color: black;
+  background-color: transparent;
+}
+
+.genre-btn>span {
+  margin-left: 10px;
+  font-size: 0.8em;
+}

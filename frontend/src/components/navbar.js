@@ -29,16 +29,17 @@ class Navbar extends Component {
   }
 
   render() {
+    const { t } = this.props;
     return ( 
       <nav className="navbar navbar-expand-sm navbar-dark bg-dark" style={{marginBottom: '50px'}}>
         <div className="collapse navbar-collapse" id="navbarNavAltMarkup">
           <div className="navbar-nav mr-auto">
             <NavLink className={`navbar-brand nav-link`} exact to='/' activeClassName="active"
                      onClick={() => this.setState({location: '/'})}>
-              Home
+              {this.props.i18n.t('navbar.Home')}
             </NavLink>
-
           </div>
+
           <Dropdown alignRight
             onMouseOver={() => this.setState({langDropdownOpen: true})}
             onMouseLeave={() => this.setState({langDropdownOpen: false})}
@@ -46,7 +47,7 @@ class Navbar extends Component {
             onToggle={() => this.setState({langDropdownOpen: false})}
             onSelect={() => this.setState({langDropdownOpen: false})}>
             <Dropdown.Toggle>
-              Language: {this.props.lang}
+              {this.props.i18n.t('navbar.Language')}: {this.props.lang}
             </Dropdown.Toggle>
 
             <Dropdown.Menu>
@@ -72,9 +73,9 @@ class Navbar extends Component {
               </Dropdown.Toggle>
 
               <Dropdown.Menu>
-                <LinkContainer>
-                  <Dropdown.Item as="button">
-                    Create novel
+                <LinkContainer to='/editNovel/'>
+                  <Dropdown.Item>
+                  {this.props.i18n.t('navbar.Create_novel')}
                   </Dropdown.Item>
                 </LinkContainer>
 
@@ -82,13 +83,13 @@ class Navbar extends Component {
 
                 <LinkContainer to="/login">
                   <Dropdown.Item onClick={this.logout.bind(this)}>
-                    Log out
+                    {this.props.i18n.t('navbar.Log_out')}
                   </Dropdown.Item>
                 </LinkContainer>
               </Dropdown.Menu>
             </Dropdown>
           ) : (
-            <Link className={`nav-item login__btn`} to='/login'>Login</Link>
+            <Link className={`nav-item login__btn`} to='/login'>{this.props.i18n.t('navbar.Login')}</Link>
           )}
         </div>
       </nav>
@@ -99,7 +100,8 @@ class Navbar extends Component {
 const mapStateToProps = (state) => {
   return {
     username: state.user.name,
-    lang: state.lang
+    lang: state.lang,
+    i18n: state.i18n
   }
 }
 
