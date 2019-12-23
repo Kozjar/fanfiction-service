@@ -11,7 +11,7 @@ const novelSchema = new Schema({
   last_update: Date,
   upload_date: Date,
   total_rate: Number,
-  rate_count: Number
+  user_rate: [{ rate: Number }]
 });
 
 const Novel = mongoose.model('novels', novelSchema);

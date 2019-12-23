@@ -1,0 +1,23 @@
+.info-title {
+  color: rgb(255, 110, 58);
+}
+
+.information__wrapper {
+  font-size: 0.9em;
+}
+
+.novel-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.userRating {
+  display: flex;
+  align-items: center;
+}
+
+.userRating>span {
+  font-size: 1.3em;
+  margin-right: 15px;
+}

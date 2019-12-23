@@ -16,7 +16,7 @@ function NovelPreview(props) {
           `, ${props.genresPool[props.genres[1]]}` : ''}`}
       </div>
       <div className="media">
-        <div className="novel-preview__rate mr-1">({props.total_rate})</div>
+        <div className="novel-preview__rate mr-1">({+props.total_rate.toFixed(2)})</div>
         <img src={star} alt="star" height="16" width="16"></img>
       </div>
     </Link>

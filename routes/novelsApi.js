@@ -14,7 +14,7 @@ router.get('/lastUpdated', (req, res) => {
 
 router.get('/topRated', (req, res) => {
   Novel.find({}, {title: 1, total_rate: 1, genres: 1})
-  .sort({total_rate: 1})
+  .sort({total_rate: -1})
   .limit(6)
   .then(novels => {
     res.send(novels);
@@ -39,11 +39,11 @@ router.post('/', (req, res) => {
         last_update: new Date(),
         upload_date: new Date(),
         total_rate: 0,
-        rate_count: 0
+        user_rate: []
       }).save();
     }
   })
-  .then(novel => res.send(novel))
+  .then(novel => res.send(novel._id))
   .catch(err => res.status(404).send());
 })
 
@@ -57,9 +57,37 @@ router.get('/:id', (req, res) => {
         id: o._id
       }
     });
-    res.send(tmpNovel);
+    const userRate = novel.user_rate.id(req.session.userId) || {rate: 0};
+    res.send({
+      novel: {...tmpNovel._doc, rate_count: tmpNovel.user_rate.length}, 
+      userRate: userRate.rate
+    });
   })
-  .catch(err => res.status(404).send());
+  .catch(err => {
+    console.log(err);
+    res.status(404).send()
+  });
+})
+
+router.put('/rate', (req, res) => {
+  Novel.findById(req.body.novelId)
+  .then(novel => {
+    if (novel.user_rate.id(req.session.userId)) {
+      novel.user_rate.id(req.session.userId).rate = req.body.rate;
+    } else {
+      novel.user_rate.push({_id: req.session.userId, rate: req.body.rate});
+    }
+    novel.total_rate = novel.user_rate.toObject().reduce((res, o) => res + o.rate, 0) / novel.user_rate.length;
+    return novel.save();
+  })
+  .then(novel => res.send({
+    total_rate: novel.total_rate,
+    rate_count: novel.user_rate.length
+  }))
+  .catch(err => {
+    console.log(err);
+    res.status(404).send()
+  })
 })
 
 router.get('/genres/:lang', (req, res) => {

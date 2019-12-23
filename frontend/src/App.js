@@ -63,8 +63,7 @@ class App extends Component {
               <Route exact path="/">
                 <Home />
               </Route>
-              <Route path="/novel">
-                <Novel />
+              <Route exact path="/novel/:id" component={Novel}>
               </Route>
               <Route path="/editNovel">
                 <EditNovel />
