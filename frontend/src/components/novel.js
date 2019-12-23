@@ -7,6 +7,9 @@ import '../styles/novel.css'
 
 import startActive from '../img/star_active.png'
 import startDisable from '../img/star_white.png'
+import { Link } from 'react-router-dom';
+import { LinkContainer } from 'react-router-bootstrap';
+import Button from 'react-bootstrap/Button';
 
 
 const Novel = (props) => {
@@ -14,6 +17,7 @@ const Novel = (props) => {
   const [novel, setNovel] = useState();
   const [stars, setStars] = useState(0);
   const [userRate, setUserRate] = useState(0);
+  const [accessStatus, setAccessStatus] = useState(0);
 
   useEffect(() => {
     fetch(`/api/novels/${props.match.params.id}`)
@@ -22,11 +26,10 @@ const Novel = (props) => {
       else throw new Error(res);
     })
     .then(res => {
-      console.log('Novel');
-      console.log(res);
       setNovel(res.novel);
       setUserRate(res.userRate);
       setStars(res.userRate);
+      setAccessStatus(res.accessStatus);
     })
     .catch(err => console.log(err));
   }, [])
@@ -58,13 +61,23 @@ const Novel = (props) => {
     }
   }
 
-
   if (novel) {
     return ( 
       <main className="container">
         <div className='novel-header'>
           <h1>{novel.title}</h1>
           <div className='userRating' onClick={e => rateNovel(e)}>
+            {console.log(accessStatus)}
+            {
+              (accessStatus == 2) ? (
+                <LinkContainer to={`/editNovel/${props.match.params.id}`}>
+                  <Button>Edit</Button>
+                </LinkContainer>
+              ) : (<></>)
+            }
+          {
+              (accessStatus > 0) ? (
+                <>
             <span>your rate:</span> 
             <img src={stars >= 1 ? startActive : startDisable}
                   onMouseEnter={() => setStars(1)} width={30} height={30}
@@ -81,6 +94,8 @@ const Novel = (props) => {
             <img src={stars >= 5 ? startActive : startDisable}
                   onMouseEnter={() => setStars(5)} width={30} height={30}
                   onMouseLeave={() => setStars(userRate)}/>
+                  </>) : (<></>)
+              }
           </div>
         </div>
         <Media>
@@ -90,32 +105,47 @@ const Novel = (props) => {
             alt="Novel image"
           />
           <Media.Body>
-            <h3>{props.t.t('Novel.information')}</h3>
-
-            <ListGroup className='information__wrapper' variant="flush">
-              <ListGroup.Item>
-                <Col className='info-title' sm={5} lg={3}>{props.t.t('Novel.author')} </Col>
-                {novel.author_name}
-              </ListGroup.Item>
-              <ListGroup.Item>
-                <Col className='info-title' sm={5} lg={3}>{props.t.t('Novel.genres')} </Col>
-                {novel.genres.map(id => props.genresPool[id]).join(', ')}
-              </ListGroup.Item>
-              <ListGroup.Item>
-                <Col className='info-title' sm={5} lg={3}>{props.t.t('Novel.last_update')} </Col>
-                {new Date(novel.last_update).toLocaleDateString()}
-              </ListGroup.Item>
-              <ListGroup.Item>
-                <Col className='info-title' sm={5} lg={3}>{props.t.t('Novel.upload_date')} </Col>
-                {new Date(novel.upload_date).toLocaleDateString()}
-              </ListGroup.Item>
-              <ListGroup.Item>
-                <Col className='info-title' sm={5} lg={3}>{props.t.t('Novel.rating')} </Col>
-                {+novel.total_rate.toFixed(2)}  (votes: {novel.rate_count})
-              </ListGroup.Item>
-            </ListGroup>
+            <h5 className='section-title'>{props.t.t('Novel.information')}</h5>
+              <ListGroup className='information__wrapper' variant="flush">
+                <ListGroup.Item>
+                  <Col className='info-title' sm={5} lg={3}>{props.t.t('Novel.author')} </Col>
+                  {novel.author_name}
+                </ListGroup.Item>
+                <ListGroup.Item>
+                  <Col className='info-title' sm={5} lg={3}>{props.t.t('Novel.genres')} </Col>
+                  {novel.genres.map(id => props.genresPool[id]).join(', ')}
+                </ListGroup.Item>
+                <ListGroup.Item>
+                  <Col className='info-title' sm={5} lg={3}>{props.t.t('Novel.last_update')} </Col>
+                  {new Date(novel.last_update).toLocaleDateString()}
+                </ListGroup.Item>
+                <ListGroup.Item>
+                  <Col className='info-title' sm={5} lg={3}>{props.t.t('Novel.upload_date')} </Col>
+                  {new Date(novel.upload_date).toLocaleDateString()}
+                </ListGroup.Item>
+                <ListGroup.Item>
+                  <Col className='info-title' sm={5} lg={3}>{props.t.t('Novel.rating')} </Col>
+                  {+novel.total_rate.toFixed(2)}  (votes: {novel.rate_count})
+                </ListGroup.Item>
+              </ListGroup>
+            
           </Media.Body>
         </Media>
+        <h5 className='section-title'>{props.t.t('Novel.description')}</h5>
+        <div className='mb-5'>{novel.description}</div>
+        
+        <h5 className='section-title'>{props.t.t('Novel.chapters')}</h5>
+        <ListGroup className='chapters-wrapper'>
+          {
+            novel.chapters.map((chapter, i) => (
+              <ListGroup.Item className='p-2' as={Link} 
+                to={`/novel/${props.match.params.id}/chapter/${i}`} 
+                key={i}>
+                  Chapter {i + 1} – {chapter.name}
+              </ListGroup.Item>
+            ))
+          }
+        </ListGroup>
       </main>
     );
   }

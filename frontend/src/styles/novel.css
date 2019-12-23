@@ -21,3 +21,17 @@
   font-size: 1.3em;
   margin-right: 15px;
 }
+
+.chapters-wrapper>a:hover {
+  background-color: #f8f9fa;
+}
+
+.chapters-wrapper {
+  font-size: 0.95em;
+}
+
+.section-title {
+  background-color: #e3eaf1;
+  border-left: 10px solid #c8d1db;
+  padding: 6px;
+}

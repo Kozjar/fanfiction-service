@@ -13,6 +13,8 @@ import '../styles/editNovel.css'
 import tmpImg from '../img/gray-img.png'
 
 const FormExample = (props) => {
+  console.log('render edit novel')
+
   const [validated, setValidated] = useState(false);
   const [choosenGenres, setGenres] = useState([]);
   const [genresPool, setGenresPool] = useState([]);
@@ -25,7 +27,8 @@ const FormExample = (props) => {
     event.preventDefault();
     if (form.checkValidity() !== false) {
       console.log(props.username);
-      fetch('/api/novels/', {
+      const id = props.match.params.novelId;
+      fetch(`/api/novels/${id ? id : ''}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json;charset=utf-8'
@@ -72,6 +75,20 @@ const FormExample = (props) => {
 
   useEffect(() => {
     setGenresPool(props.genres.map((o, i) => i));
+    if (props.match.params.novelId) {
+      fetch(`/api/novels/forEdit/${props.match.params.novelId}`)
+      .then(res => {
+        if (res.ok) return res.json()
+        else throw new Error(res);
+      })
+      .then(res => {
+        setGenres(res.genres)
+        setDesc(res.description)
+        setTitle(res.title)
+        setChapters(res.chapters)
+      })
+      .catch(err => console.log(err))
+    }
   }, [])
 
   return (

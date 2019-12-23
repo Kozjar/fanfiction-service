@@ -10,6 +10,8 @@ import { logoutAsync } from '../actions/auth';
 import { setLanguage } from '../actions/translation';
 
 import Dropdown from "react-bootstrap/Dropdown";
+import FormControl from 'react-bootstrap/FormControl';
+import InputGroup from 'react-bootstrap/InputGroup';
 
 class Navbar extends Component {
 
@@ -49,6 +51,10 @@ class Navbar extends Component {
               {this.props.i18n.t('navbar.Language')}: {this.props.lang}
             </Dropdown.Toggle>
 
+            {/* <InputGroup>
+            <FormControl></FormControl>
+            </InputGroup> */}
+
             <Dropdown.Menu>
               <Dropdown.Item as="button" onClick={this.setLang.bind(this, 'en')}>
                 English
@@ -72,6 +78,12 @@ class Navbar extends Component {
               </Dropdown.Toggle>
 
               <Dropdown.Menu>
+                <LinkContainer to={`/search/user/${this.props.username}`}>
+                  <Dropdown.Item>
+                  View my novels
+                  </Dropdown.Item>
+                </LinkContainer>
+
                 <LinkContainer to='/editNovel/'>
                   <Dropdown.Item>
                   {this.props.i18n.t('navbar.Create_novel')}

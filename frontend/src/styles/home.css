@@ -18,3 +18,8 @@
   width: 4rem;
   height: 4rem;
 }
+
+.genre-link:hover {
+  cursor: pointer;
+  background-color: #f8f9fa;
+}

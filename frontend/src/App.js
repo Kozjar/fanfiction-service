@@ -15,6 +15,8 @@ import Home from './components/home'
 import Navbar from './components/navbar'
 import Novel from "./components/novel";
 import EditNovel from './components/editNovel';
+import NovelChapter from './components/novelChapter';
+import SearchPage from './components/searchPage'
 
 import { setLanguage } from './actions/translation';
 
@@ -65,9 +67,12 @@ class App extends Component {
               </Route>
               <Route exact path="/novel/:id" component={Novel}>
               </Route>
-              <Route path="/editNovel">
-                <EditNovel />
+              <Route exact path="/novel/:id/chapter/:chapterId" component={NovelChapter}></Route>
+              <Route path="/editNovel/:novelId" component={EditNovel}>
               </Route>
+              <Route path="/editNovel/" component={EditNovel}></Route>
+              <Route exact path='/search/:genre' component={SearchPage}></Route>
+              <Route exact path='/search/user/:username' component={SearchPage}></Route>
             </Switch>
           </Router>
         </>
