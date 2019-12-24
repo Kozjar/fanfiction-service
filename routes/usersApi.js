@@ -1,6 +1,5 @@
 const router = require('express').Router();
 const User = require('../models/user');
-const ACCESS_TYPE = require('../config/userAccessType');
 
 router.post('/register', (req, res) => {
     User.findOne({ $or: [ {username: req.body.username}, {email: req.body.email} ]})
@@ -21,7 +20,7 @@ router.post('/register', (req, res) => {
           isAdmin: false
         }).save()
         .then(newUser => {
-            res.send({username: newUser.username, access: newUser.isAdmin});
+            res.send({username: newUser.username});
         })
         .catch(err => console.log(err));
       }
@@ -32,8 +31,8 @@ router.post('/register', (req, res) => {
 router.get('/login', (req, res) => {
   User.findById(req.session.userId)
   .then(user => {
-    if (!user) res.send({access: ACCESS_TYPE.guest});
-    else res.send({username: user.username, access: user.isAdmin});
+    if (!user) res.send({username: undefined});
+    else res.send({username: user.username});
   })
   .catch(err => { 
     res.status(500).send();
@@ -48,7 +47,7 @@ router.post('/login', (req, res) => {
     if (!user) res.status(400).send();
     else {
       req.session.userId = user._id;
-      res.send({username: user.username, access: user.isAdmin});
+      res.send({username: user.username});
     }
   })
   .catch(err => console.log(`cant login ${err}`));

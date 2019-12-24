@@ -2,7 +2,8 @@ import { setCookie } from '../workingWithCookie'
 
 export const setLanguage = lang => {
   return (dispatch, getState) => {
-    getState().i18n.init({
+    console.log(getState());
+    getState().language.i18n.init({
       lng: lang,
       resources: require(`../locales/${lang}.json`)
     })

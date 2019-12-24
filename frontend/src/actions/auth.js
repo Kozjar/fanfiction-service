@@ -1,9 +1,6 @@
-import { ACCESS_TYPE } from '../config/userAccessType';
-
-export const login = (access, username) => {
+export const login = (username) => {
   return {
-    type: 'LOGIN', 
-    access, 
+    type: 'LOGIN',
     username
   }
 }
@@ -18,32 +15,29 @@ export const loginError = (status) => {
 export const loginAsync = (email, password) => {
     return (dispatch, getState) => {
         fetch(`/api/users/login`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json;charset=utf-8'
-            },
-            body: JSON.stringify({email: email, password: password})
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json;charset=utf-8'
+          },
+          body: JSON.stringify({email: email, password: password})
         })
         .then(res => {
-            if (!res.ok)  throw new Error(res.statusText);
-            return res.json();
+          if (!res.ok)  throw new Error(res.statusText);
+          return res.json();
         })
         .then(json => {
-            dispatch(login(json.access, json.username));
-            return Promise.resolve();
+          dispatch(login(json.username));
         })
         .catch(err => {
           console.log(`catch error in login action: ${err}`);
           dispatch(loginError(true));
-          return Promise.reject();
         }) 
     }
 }
 
-export const registerError = (status, problemField) => {
+export const registerError = (problemField) => {
   return {
     type: 'REGISTER_ERROR',
-    status,
     problemField
   }
 }
@@ -66,7 +60,7 @@ export const registerAsync = (email, username, password) => {
     })
     .then(([status, json]) => {
       if (status === 400) throw new Error(json.problemField);
-      dispatch(login(json.access, json.username));
+      dispatch(login(json.username));
     })
     .catch(err => {
       registerError(true, err);
@@ -76,7 +70,7 @@ export const registerAsync = (email, username, password) => {
 
 export const logoutAsync = () => {
   return (dispatch, getState) => {
-    dispatch(login(ACCESS_TYPE.guest, undefined));
+    dispatch(login(undefined));
     fetch(`/api/users/logout`, {
       method: 'DELETE',
     })

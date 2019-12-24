@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import Container from 'react-bootstrap/Container';
 import Col from 'react-bootstrap/Col';
-import ListGroup from 'react-bootstrap/ListGroup';
 import { Link } from 'react-router-dom'
 import '../styles/novelChapter.css'
 import Row from 'react-bootstrap/Row';
@@ -60,17 +59,6 @@ const NovelChapter = props => {
               ))
             }
           </Nav>
-          {/* <ListGroup className='chapters-wrapper'>
-            {
-              chapters.map((chapter, i) => (
-                <ListGroup.Item className='p-2' as={Link} 
-                  to={`/novel/${props.match.params.id}/chapter/${i}`} 
-                  key={i}>
-                    Chapter {i + 1} – {chapter.name}
-                </ListGroup.Item>
-              ))
-            }
-          </ListGroup> */}
         </Col>
       </Row>
     </Container>

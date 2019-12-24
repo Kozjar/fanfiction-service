@@ -14,11 +14,7 @@ import downArrow from '../img/down-arrow.png'
 import editBtn from '../img/edit-btn.png'
 import deleteBtn from '../img/delete.png'
 
-import { EditorState, ContentState } from 'draft-js';
-import { Editor } from 'react-draft-wysiwyg';
 import '../../node_modules/react-draft-wysiwyg/dist/react-draft-wysiwyg.css'
-
-function createMarkup() { return {__html: 'First &middot; Second'}; };
 
 const ChapterEdit = (props) => {
 
@@ -56,7 +52,6 @@ const ChapterEdit = (props) => {
   }
 
   const openPageEditor = i => {
-    // const newContent = ContentState.createFromText(props.chapters[i].text);
     setEditorState(props.chapters[i].text);
     setchapterEditing({show: true, id: i});
   }
@@ -126,9 +121,6 @@ const ChapterEdit = (props) => {
           </Modal.Title>
         </Modal.Header>
         <Modal.Body className='h-100'>
-          {/* <Editor 
-            editorState={editorState}
-            onEditorStateChange={setEditorState}/> */}
           <Tabs activeKey={editorTab} onSelect={k => changeEditorTab(k)}>
             <Tab eventKey="editor" title="Edit file">
               <Form.Control as="textarea" value={editorState}

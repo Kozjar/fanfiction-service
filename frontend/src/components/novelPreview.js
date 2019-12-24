@@ -25,7 +25,7 @@ function NovelPreview(props) {
 
 const mapStateToProps = (state) => {
   return {
-    genresPool: state.genres.val
+    genresPool: state.language.genres.val
   }
 }
 

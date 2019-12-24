@@ -84,7 +84,7 @@ class App extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    genres: state.genres.val
+    genres: state.language.genres.val
   };
 }
 

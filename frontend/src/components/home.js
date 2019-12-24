@@ -85,8 +85,8 @@ class Home extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    i18n: state.i18n,
-    genres: state.genres.val
+    i18n: state.language.i18n,
+    genres: state.language.genres.val
   }
 }
  

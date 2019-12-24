@@ -13,20 +13,18 @@ import '../styles/editNovel.css'
 import tmpImg from '../img/gray-img.png'
 
 const FormExample = (props) => {
-  console.log('render edit novel')
 
   const [validated, setValidated] = useState(false);
   const [choosenGenres, setGenres] = useState([]);
   const [genresPool, setGenresPool] = useState([]);
   const [desc, setDesc] = useState('');
   const [title, setTitle] = useState('');
-  const [chapters, setChapters] = useState([{name: '', text: 'aaaaaaaaaaaaaa'}]);
+  const [chapters, setChapters] = useState([{name: '', text: ''}]);
 
   const handleSubmit = event => {
     const form = event.currentTarget;
     event.preventDefault();
     if (form.checkValidity() !== false) {
-      console.log(props.username);
       const id = props.match.params.novelId;
       fetch(`/api/novels/${id ? id : ''}`, {
         method: 'POST',
@@ -43,7 +41,6 @@ const FormExample = (props) => {
       })
       .then(res => {
         if (!res.ok)  throw new Error(res.statusText);
-        console.log('new novel was upload');
       })
       .catch(err => console.log(`failed to apload: ${err}`));
     }
@@ -109,7 +106,7 @@ const FormExample = (props) => {
             width={200}
             height={290}
             src={tmpImg}
-            alt="Novel image"
+            alt="Novel"
           />
           <div className="info__form">
             <h5>{props.t.t('Novel.information')}</h5>
@@ -167,8 +164,8 @@ const FormExample = (props) => {
 
 const mapStateToProps = (state) => {
   return {
-    t: state.i18n,
-    genres: state.genres.val,
+    t: state.language.i18n,
+    genres: state.language.genres.val,
     username: state.user.name
   }
 }

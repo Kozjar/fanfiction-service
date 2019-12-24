@@ -1,6 +1,5 @@
 import React from 'react'
 import Media from "react-bootstrap/Media";
-import { LinkContainer } from 'react-router-bootstrap';
 import { Link } from 'react-router-dom';
 
 const NovelPreviewWide = (props) => {
@@ -8,6 +7,7 @@ const NovelPreviewWide = (props) => {
   return ( 
     <Media  className='mb-5'>
       <img
+        alt='novel'
         className="mr-3" 
         width={150}
         height={200}/>

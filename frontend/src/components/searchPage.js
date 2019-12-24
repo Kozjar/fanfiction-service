@@ -8,11 +8,13 @@ const SearchPage = (props) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    const username = props.match.params.username;
+    const genre = props.match.params.genre;
     let fetchLink ='';
-    if (props.match.params.username)
-      fetchLink = `/api/novels/userNovels/${props.match.params.username}`
+    if (username)
+      fetchLink = `/api/novels/userNovels/${username}`
     else
-      fetchLink = `/api/novels/searchGenre/${props.match.params.genre}`
+      fetchLink = `/api/novels/searchGenre/${genre}`
     fetch(fetchLink)
     .then(res => {
       if (!res.ok) throw new Error(res.statusText)

@@ -10,8 +10,6 @@ import { logoutAsync } from '../actions/auth';
 import { setLanguage } from '../actions/translation';
 
 import Dropdown from "react-bootstrap/Dropdown";
-import FormControl from 'react-bootstrap/FormControl';
-import InputGroup from 'react-bootstrap/InputGroup';
 
 class Navbar extends Component {
 
@@ -50,10 +48,6 @@ class Navbar extends Component {
             <Dropdown.Toggle>
               {this.props.i18n.t('navbar.Language')}: {this.props.lang}
             </Dropdown.Toggle>
-
-            {/* <InputGroup>
-            <FormControl></FormControl>
-            </InputGroup> */}
 
             <Dropdown.Menu>
               <Dropdown.Item as="button" onClick={this.setLang.bind(this, 'en')}>
@@ -111,8 +105,8 @@ class Navbar extends Component {
 const mapStateToProps = (state) => {
   return {
     username: state.user.name,
-    lang: state.lang,
-    i18n: state.i18n
+    lang: state.language.lang,
+    i18n: state.language.i18n
   }
 }
 

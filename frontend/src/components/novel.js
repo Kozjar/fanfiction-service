@@ -1,4 +1,4 @@
-import React, { Component, useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import Media from 'react-bootstrap/Media'
 import ListGroup from 'react-bootstrap/ListGroup'
 import { connect } from 'react-redux';
@@ -69,7 +69,7 @@ const Novel = (props) => {
           <div className='userRating' onClick={e => rateNovel(e)}>
             {console.log(accessStatus)}
             {
-              (accessStatus == 2) ? (
+              (accessStatus === 2) ? (
                 <LinkContainer to={`/editNovel/${props.match.params.id}`}>
                   <Button>Edit</Button>
                 </LinkContainer>
@@ -79,19 +79,19 @@ const Novel = (props) => {
               (accessStatus > 0) ? (
                 <>
             <span>your rate:</span> 
-            <img src={stars >= 1 ? startActive : startDisable}
+            <img src={stars >= 1 ? startActive : startDisable} alt='star'
                   onMouseEnter={() => setStars(1)} width={30} height={30}
                   onMouseLeave={() => setStars(userRate)}/>
-            <img src={stars >= 2 ? startActive : startDisable}
+            <img src={stars >= 2 ? startActive : startDisable} alt='star'
                   onMouseEnter={() => setStars(2)} width={30} height={30}
                   onMouseLeave={() => setStars(userRate)}/>
-            <img src={stars >= 3 ? startActive : startDisable}
+            <img src={stars >= 3 ? startActive : startDisable} alt='star'
                   onMouseEnter={() => setStars(3)} width={30} height={30}
                   onMouseLeave={() => setStars(userRate)}/>
-            <img src={stars >= 4 ? startActive : startDisable}
+            <img src={stars >= 4 ? startActive : startDisable} alt='star'
                   onMouseEnter={() => setStars(4)} width={30} height={30}
                   onMouseLeave={() => setStars(userRate)}/>
-            <img src={stars >= 5 ? startActive : startDisable}
+            <img src={stars >= 5 ? startActive : startDisable} alt='star'
                   onMouseEnter={() => setStars(5)} width={30} height={30}
                   onMouseLeave={() => setStars(userRate)}/>
                   </>) : (<></>)
@@ -102,7 +102,7 @@ const Novel = (props) => {
           <img
             width={250}
             height={350}
-            alt="Novel image"
+            alt="Novel"
           />
           <Media.Body>
             <h5 className='section-title'>{props.t.t('Novel.information')}</h5>
@@ -154,8 +154,8 @@ const Novel = (props) => {
 
 const mapStateToProps = (state) => {
   return {
-    t: state.i18n,
-    genresPool: state.genres.val
+    t: state.language.i18n,
+    genresPool: state.language.genres.val
   }
 }
  

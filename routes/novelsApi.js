@@ -80,8 +80,6 @@ router.get('/:id', (req, res) => {
     });
     let status = 0;
     if (req.session.userId) status = 1;
-    console.log(username);
-    console.log(novel.author_name);
 
     if (username == novel.author_name) status = 2;
     const userRate = novel.user_rate.id(req.session.userId) || {rate: 0};
@@ -151,7 +149,7 @@ router.put('/rate', (req, res) => {
   }))
   .catch(err => {
     console.log(err);
-    res.status(404).send()
+    res.status(500).send()
   })
 })
 
@@ -185,7 +183,7 @@ router.get('/searchGenre/:genre', (req, res) => {
 });
 
 router.get('/userNovels/:username', (req, res) => {
-  Novel.find({author_name: req.params.username}, 
+  Novel.find({author_name: req.params.username},
     {title: 1, description: 1, _id: 1})
   .then(novels => {
     res.send(novels);
