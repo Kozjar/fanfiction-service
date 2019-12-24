@@ -42,7 +42,7 @@ class App extends Component {
         throw new Error(res);
     })
     .then(res => {
-      this.props.login(res.access, res.username);
+      this.props.login(res.username);
       this.setState({loadingUser: false});
     })
     .catch(err => console.log(`err!!! ${err}`));

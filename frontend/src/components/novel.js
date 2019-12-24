@@ -18,6 +18,8 @@ const Novel = (props) => {
   const [stars, setStars] = useState(0);
   const [userRate, setUserRate] = useState(0);
   const [accessStatus, setAccessStatus] = useState(0);
+  const [authorName, setAuthorName] = useState();
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     fetch(`/api/novels/${props.match.params.id}`)
@@ -30,6 +32,13 @@ const Novel = (props) => {
       setUserRate(res.userRate);
       setStars(res.userRate);
       setAccessStatus(res.accessStatus);
+      return res.novel.author_id;
+    })
+    .then(author_id => fetch(`/api/users/getUsername/${author_id}`))
+    .then(res => res.text())
+    .then(authorName => { 
+      setAuthorName(authorName);
+      setIsLoading(false);
     })
     .catch(err => console.log(err));
   }, [])
@@ -39,7 +48,6 @@ const Novel = (props) => {
       setUserRate(stars);
       fetch('/api/novels/rate', {
         method: 'PUT',
-        
         headers: {
           'Content-Type': 'application/json;charset=utf-8'
         },
@@ -61,7 +69,7 @@ const Novel = (props) => {
     }
   }
 
-  if (novel) {
+  if (!isLoading && novel) {
     return ( 
       <main className="container">
         <div className='novel-header'>
@@ -109,7 +117,7 @@ const Novel = (props) => {
               <ListGroup className='information__wrapper' variant="flush">
                 <ListGroup.Item>
                   <Col className='info-title' sm={5} lg={3}>{props.t.t('Novel.author')} </Col>
-                  {novel.author_name}
+                  <Link to={`/`}>{authorName}</Link>
                 </ListGroup.Item>
                 <ListGroup.Item>
                   <Col className='info-title' sm={5} lg={3}>{props.t.t('Novel.genres')} </Col>

@@ -3,6 +3,19 @@ const Novel = require('../models/novel');
 const Genre = require('../models/genres');
 const User = require('../models/user');
 
+const checkIsLoggedIn = (req, res, next) => {
+  req.isLoggedIn = true;
+  User.findById(req.session.userId)
+  .then(user => {
+    if (user) next();
+    else {
+      req.isLoggedIn = false
+      next();
+    }
+  })
+  .catch(err => console.log(err))
+}
+
 router.get('/lastUpdated', (req, res) => {
   Novel.find({}, {title: 1, total_rate: 1, genres: 1})
   .sort({last_update: -1})
@@ -23,14 +36,14 @@ router.get('/topRated', (req, res) => {
   .catch(err => console.log(err));
 })
 
-router.post('/:id', (req, res) => {
-  console.log('get request from frontend');
-  console.log(req.body);
+// Save new novel or update if get id parameter
+router.post('/:id', checkIsLoggedIn, (req, res) => {
+  console.log(`id: ${id}`);
   if (req.params.id) {
     Novel.findByIdAndUpdate(req.params.id, {
       $set: {
         title: req.body.title,
-        author_name: req.body.authorName,
+        author_id: req.session.userId,
         description: req.body.description,
         chapters: [...req.body.chapters],
         genres: [...req.body.genres],
@@ -38,15 +51,18 @@ router.post('/:id', (req, res) => {
       }
     })
     .then(novel => res.send(novel._id))
-    .catch(err => res.status(404).send());
+    .catch(err => {
+      console.log(err);
+      res.status(404).send();
+    });
   } else {
     Novel.findOne({title: req.body.title})
     .then(novel => {
       if (novel) res.status(405).send('Novel with such title already exist');
       else {
-        new Novel({
+        return new Novel({
           title: req.body.title,
-          author_name: req.body.authorName,
+          author_id: req.session.userId,
           description: req.body.description,
           chapters: [...req.body.chapters],
           comments: [],
@@ -55,22 +71,24 @@ router.post('/:id', (req, res) => {
           upload_date: new Date(),
           total_rate: 0,
           user_rate: []
-        }).save();
+        })
       }
     })
+    .save()
     .then(novel => res.send(novel._id))
-    .catch(err => res.status(404).send());
+    .catch(err => {
+      console.log(err);
+      res.status(404).send();
+    });
   }
 })
 
-router.get('/:id', (req, res) => {
-  let username = '';
-  User.findById(req.session.userId, {username: 1})
-  .then(user => {
-    username = user.username;
-    return Novel.findById(req.params.id)
-  })
+// get full novel info by id
+router.get('/:id', checkIsLoggedIn, (req, res) => {
+  let status = req.isLoggedIn;
+  Novel.findById(req.params.id)
   .then(novel => {
+    if (req.session.userId == novel.author_id) status = 2;
     let tmpNovel = novel;
     tmpNovel.chapters = novel.chapters.map(o => {
       return {
@@ -78,10 +96,6 @@ router.get('/:id', (req, res) => {
         id: o._id
       }
     });
-    let status = 0;
-    if (req.session.userId) status = 1;
-
-    if (username == novel.author_name) status = 2;
     const userRate = novel.user_rate.id(req.session.userId) || {rate: 0};
     res.send({
       novel: {...tmpNovel._doc, rate_count: tmpNovel.user_rate.length}, 
@@ -91,11 +105,11 @@ router.get('/:id', (req, res) => {
   })
   .catch(err => {
     console.log(err);
-    res.status(404).send()
+    res.status(404).send();
   });
 })
 
-router.get('/forEdit/:id', (req, res) => {
+router.get('/forEdit/:id', checkIsLoggedIn, (req, res) => {
   Novel.findById(req.params.id, {
     genres: 1, 
     description: 1,
@@ -132,7 +146,7 @@ router.get('/:id/chapter/:chapterId', (req, res) => {
   })
 })
 
-router.put('/rate', (req, res) => {
+router.put('/rate', checkIsLoggedIn, (req, res) => {
   Novel.findById(req.body.novelId)
   .then(novel => {
     if (novel.user_rate.id(req.session.userId)) {
@@ -182,15 +196,15 @@ router.get('/searchGenre/:genre', (req, res) => {
   })
 });
 
-router.get('/userNovels/:username', (req, res) => {
-  Novel.find({author_name: req.params.username},
+router.get('/userNovels/:userId', (req, res) => {
+  Novel.find({author_id: req.params.userId},
     {title: 1, description: 1, _id: 1})
   .then(novels => {
     res.send(novels);
   })
   .catch(err => {
     console.log(err);
-    res.status(404).send()
+    res.status(404).send();
   })
 });
 

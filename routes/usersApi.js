@@ -65,6 +65,12 @@ router.delete('/logout', (req, res) => {
       res.send('session was destroyed');
     }
   });
+});
+
+router.get('/getUsername/:id', (req, res) => {
+  User.findById(req.params.id)
+  .then(user => res.send(user.username))
+  .catch(err => console.log(err));
 })
 
 module.exports = router;

@@ -11,6 +11,7 @@ import ChapterEdit from './chapterEdit'
 import '../styles/editNovel.css'
 
 import tmpImg from '../img/gray-img.png'
+import { Redirect } from 'react-router-dom'
 
 const FormExample = (props) => {
 
@@ -87,6 +88,8 @@ const FormExample = (props) => {
       .catch(err => console.log(err))
     }
   }, [])
+  
+  if (!props.username) return (<Redirect to='/'/>)
 
   return (
     <Container>
