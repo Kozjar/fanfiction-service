@@ -10,7 +10,13 @@ const MongoStore = require('connect-mongo')(session);
 const usersApi = require('./routes/usersApi');
 const novelsApi = require('./routes/novelsApi');
 
-const keys = require('./config/keys');
+let mongoURL = undefined;
+
+if (process.env.NODE_ENV !== 'production') {
+  mongoURL = require('./config/keys').mongodb.dbURL;
+} else {
+  mongoURL = process.env.MONGODB_URL;
+}
 
 const app = express();
 
@@ -24,7 +30,7 @@ app.use(cookieParser());
 
 
 // connect to mongodb
-mongoose.connect(keys.mongodb.dbURL, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: true }, () => {
+mongoose.connect(mongoURL, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: true }, () => {
     console.log('connected to mongodb');
 });
 
@@ -42,7 +48,7 @@ app.use(session({
 // set up routes
 app.use('/api/users', usersApi);
 app.use('/api/novels', novelsApi);
-app.get('*', (req, res) => { res.sendFile(path.join(__dirname+'/frontend/public/index.html')); })
+// app.get('*', (req, res) => { res.sendFile(path.join(__dirname+'/frontend/public/index.html')); })
 
 //production mode
 if(process.env.NODE_ENV === 'production') {  
