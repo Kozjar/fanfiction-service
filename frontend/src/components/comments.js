@@ -37,7 +37,7 @@ const Comment = (props) => {
 
 const CommentsSection = (props) => {
   const [userComment, setUserComment] = useState('');
-  const [comments, setComments] = useState(props.initComments);
+  const [comments, setComments] = useState([...props.initComments]);
 
   useEffect(() => {
     socket = openSocket();
@@ -50,7 +50,8 @@ const CommentsSection = (props) => {
     socket.on('newComment', data => {
       console.log(`receive a comment: `);
       console.log(data);
-      setComments([...comments, {userName: data.userName, text: data.text}]);
+      console.log(comments);
+      setComments((com) => [...com, {userName: data.userName, text: data.text}]);
     });
 
     return () => socket.emit('leave', props.novelId);
