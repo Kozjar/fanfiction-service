@@ -9,7 +9,7 @@ const checkIsLoggedIn = (req, res, next) => {
   .then(user => {
     if (user) next();
     else {
-      req.isLoggedIn = false
+      req.isLoggedIn = false;
       next();
     }
   })
@@ -212,6 +212,27 @@ router.get('searchByName/:name', (req, res) => {
   const regexp = new RegExp(req.params.name);
   Novel.find({title: regexp})
   .then(novels => console.log(novels));
-})
+});
+
+router.post('/:novelId/comments', checkIsLoggedIn, (req, res) => {
+  if (!req.isLoggedIn) {
+    res.status(401).send();
+    return
+  }
+  const userComment = {
+    user_id: req.session.userId,
+    text: req.body.text
+  }
+  Novel.findById(req.params.novelId)
+  .then(novel => {
+    novel.comments.push(userComment);
+    return novel.save();
+  })
+  .then(() => res.send({...userComment}))
+  .catch(err => {
+    res.status(500).send();
+    console.log(`err!!: ${err}`);
+  })
+});
 
 module.exports = router;

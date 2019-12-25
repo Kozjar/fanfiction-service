@@ -11,6 +11,8 @@ import { Link } from 'react-router-dom';
 import { LinkContainer } from 'react-router-bootstrap';
 import Button from 'react-bootstrap/Button';
 
+import CommentsSection from './comments'
+
 
 const Novel = (props) => {
 
@@ -75,7 +77,6 @@ const Novel = (props) => {
         <div className='novel-header'>
           <h1>{novel.title}</h1>
           <div className='userRating' onClick={e => rateNovel(e)}>
-            {console.log(accessStatus)}
             {
               (accessStatus === 2) ? (
                 <LinkContainer to={`/editNovel/${props.match.params.id}`}>
@@ -154,6 +155,9 @@ const Novel = (props) => {
             ))
           }
         </ListGroup>
+        <CommentsSection 
+          novelId={props.match.params.id}
+          initComments={novel.comments}/>
       </main>
     );
   }

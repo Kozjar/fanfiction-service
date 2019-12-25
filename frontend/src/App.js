@@ -68,8 +68,7 @@ class App extends Component {
               <Route exact path="/novel/:id" component={Novel}>
               </Route>
               <Route exact path="/novel/:id/chapter/:chapterId" component={NovelChapter}></Route>
-              <Route path="/editNovel/:novelId" component={EditNovel}>
-              </Route>
+              <Route path="/editNovel/:novelId" component={EditNovel}></Route>
               <Route path="/editNovel/" component={EditNovel}></Route>
               <Route exact path='/search/:genre' component={SearchPage}></Route>
               <Route exact path='/search/user/:username' component={SearchPage}></Route>
