@@ -16,6 +16,18 @@ const checkIsLoggedIn = (req, res, next) => {
   .catch(err => console.log(err))
 }
 
+const checkIsLoggedInStrict = (req, res, next) => {
+  req.isLoggedIn = true;
+  User.findById(req.session.userId)
+  .then(user => {
+    if (user) next();
+    else {
+      res.status(401).send();
+    }
+  })
+  .catch(err => console.log(err))
+}
+
 router.get('/lastUpdated', (req, res) => {
   Novel.find({}, {title: 1, total_rate: 1, genres: 1})
   .sort({last_update: -1})
@@ -36,29 +48,14 @@ router.get('/topRated', (req, res) => {
   .catch(err => console.log(err));
 })
 
-// Save new novel or update if get id parameter
-router.post('/:id', checkIsLoggedIn, (req, res) => {
-  console.log(`id: ${id}`);
-  if (req.params.id) {
-    Novel.findByIdAndUpdate(req.params.id, {
-      $set: {
-        title: req.body.title,
-        author_id: req.session.userId,
-        description: req.body.description,
-        chapters: [...req.body.chapters],
-        genres: [...req.body.genres],
-        last_update: new Date(),
-      }
-    })
-    .then(novel => res.send(novel._id))
-    .catch(err => {
-      console.log(err);
-      res.status(404).send();
-    });
-  } else {
+// Save new novel
+router.post('/', checkIsLoggedInStrict, (req, res) => {
     Novel.findOne({title: req.body.title})
     .then(novel => {
-      if (novel) res.status(405).send('Novel with such title already exist');
+      if (novel) {
+        res.status(405).send('Novel with such title already exist');
+        throw new Error('Novel with such title already exist');
+      }
       else {
         return new Novel({
           title: req.body.title,
@@ -72,16 +69,33 @@ router.post('/:id', checkIsLoggedIn, (req, res) => {
           total_rate: 0,
           user_rate: []
         })
+        .save()
       }
     })
-    .save()
     .then(novel => res.send(novel._id))
     .catch(err => {
       console.log(err);
-      res.status(404).send();
     });
-  }
 })
+
+// Update existing novel
+router.post('/:id', checkIsLoggedInStrict, (req, res) => {
+  Novel.findByIdAndUpdate(req.params.id, {
+    $set: {
+      title: req.body.title,
+      author_id: req.session.userId,
+      description: req.body.description,
+      chapters: [...req.body.chapters],
+      genres: [...req.body.genres],
+      last_update: new Date(),
+    }
+  })
+  .then(novel => res.send(novel._id))
+  .catch(err => {
+    console.log(err);
+    res.status(404).send();
+  });
+});
 
 // get full novel info by id
 router.get('/:id', checkIsLoggedIn, (req, res) => {

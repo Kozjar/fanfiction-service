@@ -22,6 +22,8 @@ const FormExample = (props) => {
   const [title, setTitle] = useState('');
   const [chapters, setChapters] = useState([{name: '', text: ''}]);
 
+  const [redirectTo, setRedirectTo] = useState('');
+
   const handleSubmit = event => {
     const form = event.currentTarget;
     event.preventDefault();
@@ -42,6 +44,11 @@ const FormExample = (props) => {
       })
       .then(res => {
         if (!res.ok)  throw new Error(res.statusText);
+        else return res.text();
+      })
+      .then(novelId => {
+        console.log(novelId)
+        setRedirectTo(novelId.slice(1, novelId.length - 1))
       })
       .catch(err => console.log(`failed to apload: ${err}`));
     }
@@ -90,6 +97,8 @@ const FormExample = (props) => {
   }, [])
   
   if (!props.username) return (<Redirect to='/'/>)
+
+  if (redirectTo) return <Redirect to={`/novel/${redirectTo}`}/>
 
   return (
     <Container>
