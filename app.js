@@ -10,6 +10,8 @@ const MongoStore = require('connect-mongo')(session);
 const usersApi = require('./routes/usersApi');
 const novelsApi = require('./routes/novelsApi');
 
+const createSocketConnection = require('./socketSetup');
+
 let mongoURL = undefined;
 
 if (process.env.NODE_ENV !== 'production') {
@@ -58,4 +60,5 @@ if(process.env.NODE_ENV === 'production') {
 
 const server = app.listen(port, () => {
     console.log('\x1b[32mListening \x1b[36mhttp://localhost:4000', '\x1b[0m');
+    createSocketConnection(server);
 });

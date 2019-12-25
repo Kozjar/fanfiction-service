@@ -3,11 +3,16 @@ import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import { connect } from 'react-redux';
 
+import openSocket from 'socket.io-client';
+
+let socket = undefined;
+
 const Comment = (props) => {
   const [isLoading, setIsLoading] = useState(true);
-  const [userName, setUserName] = useState('');
+  const [userName, setUserName] = useState(props.userName);
 
   useEffect(() => {
+    if (userName) return setIsLoading(false);
     fetch(`/api/users/getUsername/${props.userId}`)
     .then(res => {
       if (!res.ok) throw new Error(res.statusText);
@@ -34,6 +39,23 @@ const CommentsSection = (props) => {
   const [userComment, setUserComment] = useState('');
   const [comments, setComments] = useState(props.initComments);
 
+  useEffect(() => {
+    socket = openSocket();
+
+    socket.on('connect', data => {
+      console.log(`emit on(connect), data: ${data}`);
+      socket.emit('join', props.novelId);
+    });
+
+    socket.on('newComment', data => {
+      console.log(`receive a comment: `);
+      console.log(data);
+      setComments([...comments, {userName: data.userName, text: data.text}]);
+    });
+
+    return () => socket.emit('leave', props.novelId);
+  }, [])
+
   function sendComment(e) {
     e.preventDefault();
     fetch(`/api/novels/${props.novelId}/comments`, {
@@ -56,8 +78,13 @@ const CommentsSection = (props) => {
       else return res.json()
     })
     .then(res => {
+      console.log(socket);
+      socket.emit('comment', {
+        room: props.novelId,
+        userName: props.userName,
+        text: userComment
+      });
       setUserComment('');
-      setComments([...comments, {user_id: res.user_id, text: res.text}]);
     })
     .catch(err => console.log(err));
   }
@@ -65,7 +92,8 @@ const CommentsSection = (props) => {
   return ( 
     <div>
       {comments.map((comment, i) => 
-        <Comment userId={comment.user_id} text={comment.text} key={i}/>
+        <Comment userName={comment.userName} userId={comment.user_id} 
+                 text={comment.text} key={i}/>
       )}
       {
         props.userName ? (

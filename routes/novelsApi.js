@@ -13,7 +13,7 @@ const checkIsLoggedIn = (req, res, next) => {
       next();
     }
   })
-  .catch(err => console.log(err))
+  .catch(err => console.log(`checkIsLoggedIn error: ${err}`))
 }
 
 const checkIsLoggedInStrict = (req, res, next) => {
