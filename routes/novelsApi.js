@@ -196,9 +196,10 @@ router.get('/searchGenre/:genre', (req, res) => {
   })
 });
 
-router.get('/userNovels/:userId', (req, res) => {
-  Novel.find({author_id: req.params.userId},
-    {title: 1, description: 1, _id: 1})
+router.get('/userNovels/:username', (req, res) => {
+  User.findOne({username: req.params.username}, {_id: 1})
+  .then(user =>
+    Novel.find({author_id: user._id}, {title: 1, description: 1, _id: 1}))
   .then(novels => {
     res.send(novels);
   })

@@ -118,7 +118,7 @@ const Novel = (props) => {
               <ListGroup className='information__wrapper' variant="flush">
                 <ListGroup.Item>
                   <Col className='info-title' sm={5} lg={3}>{props.t.t('Novel.author')} </Col>
-                  <Link to={`/`}>{authorName}</Link>
+                  <Link to={`/search/user/${authorName}`}>{authorName}</Link>
                 </ListGroup.Item>
                 <ListGroup.Item>
                   <Col className='info-title' sm={5} lg={3}>{props.t.t('Novel.genres')} </Col>
