@@ -14,8 +14,6 @@ import downArrow from '../img/down-arrow.png'
 import editBtn from '../img/edit-btn.png'
 import deleteBtn from '../img/delete.png'
 
-import '../../node_modules/react-draft-wysiwyg/dist/react-draft-wysiwyg.css'
-
 const ChapterEdit = (props) => {
 
   const [chapterEditing, setchapterEditing] = useState({show: false});

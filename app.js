@@ -2,6 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const cookieParser = require('cookie-parser')
+const path = require('path');
 
 const session = require('express-session');
 const MongoStore = require('connect-mongo')(session);
@@ -13,8 +14,14 @@ const keys = require('./config/keys');
 
 const app = express();
 
+const port = process.env.PORT || 4000;
+
+// app.use(express.static(path.join(__dirname, 'frontend/build')));
+
 app.use(bodyParser.json());
 app.use(cookieParser());
+//build mode
+
 
 // connect to mongodb
 mongoose.connect(keys.mongodb.dbURL, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: true }, () => {
@@ -35,7 +42,14 @@ app.use(session({
 // set up routes
 app.use('/api/users', usersApi);
 app.use('/api/novels', novelsApi);
+app.get('*', (req, res) => { res.sendFile(path.join(__dirname+'/frontend/public/index.html')); })
 
-const server = app.listen(4000, () => {
+//production mode
+if(process.env.NODE_ENV === 'production') {  
+  app.use(express.static(path.join(__dirname, 'frontend/build'))); 
+  app.get('*', (req, res) => { res.sendfile(path.join(__dirname = 'frontend/build/index.html')); });
+}
+
+const server = app.listen(port, () => {
     console.log('\x1b[32mListening \x1b[36mhttp://localhost:4000', '\x1b[0m');
 });
