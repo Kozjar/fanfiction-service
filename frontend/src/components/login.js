@@ -70,7 +70,7 @@ class Login extends Component {
       }
         return ( 
             <div className='container'>
-                <form className='mx-auto w-50' onSubmit={this.onSubmitForm.bind(this)}>
+                <form className='mx-auto w-50 main-section__wrapper' onSubmit={this.onSubmitForm.bind(this)}>
                     <nav className="nav nav-pills enter-type-nav">
                         <div className={`nav-item nav-link ${!this.state.newUser ? 'active' : ''}`}
                            onClick={() => {

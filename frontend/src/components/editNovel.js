@@ -101,7 +101,7 @@ const FormExample = (props) => {
   if (redirectTo) return <Redirect to={`/novel/${redirectTo}`}/>
 
   return (
-    <Container>
+    <Container className='main-section__wrapper'>
       <Form noValidate validated={validated} onSubmit={handleSubmit}>
         <Form.Group>
           <Form.Control

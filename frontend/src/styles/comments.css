@@ -1,0 +1,22 @@
+textarea:focus {
+  box-shadow: 0 0 0 0.1rem rgba(0,123,255,.25) !important;
+}
+
+.comment-date {
+  font-size: 0.8em;
+  color: #999;
+  margin-left: 20px;
+  line-height: 26px;
+}
+
+.list-group-item:last-child {
+  border: none;
+}
+
+pre {
+  white-space: pre-wrap;
+}
+
+.page-link:focus {
+  box-shadow: none;
+}

@@ -27,7 +27,7 @@ class Home extends Component {
   render() { 
     return ( 
       <main>
-        <div className="container">
+        <div className="container main-section__wrapper">
           <ListGroup horizontal>
             {
               this.props.genres.map((genre, i) => (

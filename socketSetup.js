@@ -24,7 +24,9 @@ const createSocketConnection = (server) => {
     socket.on('comment', data => {
       console.log(data);
       io.to(data.room).emit('newComment', {
-        userName: data.userName, text: data.text
+        userName: data.userName,
+        text: data.text,
+        date: data.date
       });
     })
   })

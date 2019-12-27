@@ -6,7 +6,7 @@ const novelSchema = new Schema({
   author_id: Schema.Types.ObjectId,
   description: String,
   chapters: [{ name: String, text: String }],
-  comments: [{ user_id: Schema.Types.ObjectId, text: String }],
+  comments: [{ user_id: Schema.Types.ObjectId, text: String, date: Date }],
   genres: [Number],
   last_update: Date,
   upload_date: Date,

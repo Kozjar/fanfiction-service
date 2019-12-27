@@ -30,7 +30,7 @@ class Navbar extends Component {
 
   render() {
     return ( 
-      <nav className="navbar navbar-expand-sm navbar-dark bg-dark" style={{marginBottom: '50px'}}>
+      <nav className="navbar navbar-expand-sm navbar-dark bg-dark">
         <div className="collapse navbar-collapse" id="navbarNavAltMarkup">
           <div className="navbar-nav mr-auto">
             <NavLink className={`navbar-brand nav-link`} exact to='/' activeClassName="active"

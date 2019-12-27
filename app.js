@@ -8,7 +8,7 @@ const session = require('express-session');
 const MongoStore = require('connect-mongo')(session);
 
 const usersApi = require('./routes/usersApi');
-const novelsApi = require('./routes/novelsApi');
+const novelsApi = require('./routes/novelsApi/index');
 
 const createSocketConnection = require('./socketSetup');
 

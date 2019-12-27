@@ -30,7 +30,7 @@ const SearchPage = (props) => {
   if (loading) return (<>Loading...</>)
 
   return (
-    <Container>
+    <Container className='main-section__wrapper'>
       {novels.length === 0 ? 'No such novels' : ''}
       {
         novels.map((novel, i) => (
